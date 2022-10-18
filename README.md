@@ -1,24 +1,32 @@
-# GithubMovieMaker
+# Source Convertor
 
-This is a simple script that will create a movie from a GitHub repository.
-
+This is a project to convert the source code on GitHub into a video.
 
 ## Installation
 
 ```bash
-git install git+https://github.com/noricha-vr/github_movie_maker.git
+git install git+https://github.com/noricha-vr/source_convertor.git
 ```
 
 ## Usage
+Please see `--url` or `folder_path`.
+If you want select the output movie path, please set `output` option.
 
-```bash
-python3 github_movie_maker.py <repository> <output_file>
+```python
+from source_converter import SourceConverter
+
+source_converter = SourceConverter()
+folder_path = source_converter.download_github_source(url="")
+html_root_path = source_converter.to_html(folder_path=folder_path)
+image_paths = source_converter.to_images(html_root_path=html_root_path)
+movie_path = source_converter.to_movie(image_paths=image_paths)
 ```
 
 ## Example
 
 ```bash
-python3 github_movie_maker.py noricha-vr/screen_capture screen_capture.mp4
+python3 github_movie_maker.py noricha-vr/screen_capture path/to/output.mp4
+python3 github_movie_maker.py https://github.com/noricha-vr/source_converter movie.mp4
 ```
 
 ## Requirements
