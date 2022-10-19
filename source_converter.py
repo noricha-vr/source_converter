@@ -64,9 +64,8 @@ class SourceConverter:
         :param file_path:
         :return:
         """
-        h1 = str(file_path).split('/')[1:]
-        h1 = "/".join(h1).replace('_copy', '')
-        return f'<h1>{h1}</h1>\n{html}'
+        text = str(file_path).split('/')[1:]
+        return f'<h1>{text}</h1>\n{html}'
 
     def file_to_html(self, file_path: Path) -> Path:
         """
