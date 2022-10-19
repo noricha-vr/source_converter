@@ -77,3 +77,17 @@ class SourceConverter:
         for target in targets:
             target_paths.extend(project_folder_path.glob(f"**/{target}"))
         return target_paths
+
+    def project_to_html(self, project_folder_path: Path, targets: List[str]) -> List[Path]:
+        """
+        Convert project to html.
+        :param project_folder_path:
+        :param targets:
+        :return: html file paths
+        """
+        target_files = self.select_target_files(project_folder_path, targets)
+        html_files = []
+        for target_file in target_files:
+            html_file = self.file_to_html(target_file)
+            html_files.append(html_file)
+        return html_files
