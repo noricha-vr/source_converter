@@ -6,7 +6,7 @@ This is a project to convert the source code on GitHub into a video.
 
 ```bash
 
-pip install git+https://github.com/noricha-vr/source_convertor
+pip install source_convertor
 ```
 
 ## Usage
