@@ -5,7 +5,7 @@ This is a project to convert the source code on GitHub into a video.
 ## Installation
 
 ```bash
-git install git+https://github.com/noricha-vr/source_convertor.git
+pip install git+https://github.com/noricha-vr/source_convertor
 ```
 
 ## Usage
@@ -27,11 +27,3 @@ project_path = GithubDownloader.rename_project(folder_path, project_name)
 source_converter = SourceConverter('default')
 html_file_path = source_converter.project_to_html(project_path, targets)
 ```
-
-## Requirements
-
-- ffmpeg
-- python3
-- requests
-- pygments
-- moviepy
