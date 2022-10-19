@@ -1,3 +1,4 @@
+import shutil
 import zipfile
 from pathlib import Path
 
@@ -72,9 +73,13 @@ class GithubDownloader:
     @staticmethod
     def rename_project(folder_path: Path, project_name: str) -> Path:
         """
-        Rename project
+        Rename project. If project directory is exists, delete it.
         :param folder_path:
         :param project_name:
         return project folder path
         """
-        return folder_path.rename(folder_path.parent / project_name)
+        project_path = folder_path.parent / project_name
+        if project_path.exists():
+            shutil.rmtree(project_path)
+        folder_path.rename(project_path)
+        return project_path
