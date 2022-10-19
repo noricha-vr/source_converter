@@ -22,9 +22,16 @@ class TestSourceConverter:
     @pytest.mark.parametrize(('targets', 'count'), [
         (['*.py'], 5),
         (['*.py', 'README.md'], 6),
-        (['*.py', 'README.md', ''], 6),
     ])
     def test_select_target_files(self, targets, count):
         project_folder_path = Path("project/source_converter")
         target_files = SourceConverter.select_target_files(project_folder_path, targets)
         assert len(target_files) == count
+
+    @pytest.mark.parametrize(('project_folder', 'targets', 'count'), [
+        (Path("project/source_converter"), ['README.md', '*.py'], 6),
+    ])
+    def test_project_to_html(self, project_folder, targets, count):
+        source_converter = SourceConverter('default')
+        html_paths = source_converter.project_to_html(project_folder, targets)
+        assert len(html_paths) == count
