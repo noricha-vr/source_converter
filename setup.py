@@ -9,7 +9,7 @@ packages = find_packages(exclude=['tests', 'tests.*'])
 packages.extend(['.'])
 setup(
     name='source_converter',
-    version='0.1.7',
+    version='0.1.8',
     packages=packages,
     install_requires=_requires_from_file('requirements.txt'),
     setup_requires=["pytest-runner"],
