@@ -8,9 +8,8 @@ from source_converter import SourceConverter
 class TestSourceConverter:
 
     @pytest.mark.parametrize(('file_path', 'html_path'), [
-        (Path("project/source_converter/main.py"), Path("html/source_converter/main.html")),
-        (Path("project/source_converter/tests/test_source_converter.py"),
-         Path("html/source_converter/tests/test_source_converter.html")),
+        (Path("project/source_converter/source_converter.py"),
+         Path("html/source_converter/source_converter.html")),
     ])
     def test_file_to_html(self, file_path, html_path):
         # This test needs to run after GithubDownloader test_download_github_archive_and_unzip_to_file().

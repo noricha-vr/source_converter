@@ -69,6 +69,7 @@ class GithubDownloader:
         """
         url = f'{url}/archive/master.zip'
         file_path = Path(f'project/{project_name}.zip')
+        file_path.parent.mkdir(parents=True, exist_ok=True)
         return GithubDownloader.download_github_archive_and_unzip(url, file_path, file_path.parent)
 
     @staticmethod
