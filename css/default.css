@@ -36,6 +36,7 @@ span.linenos.special {
 
 .highlight {
     background: #f8f8f8;
+    padding: 5px;
 }
 
 .highlight .c {
