@@ -68,3 +68,13 @@ class GithubDownloader:
         """
         url = f'{url}/archive/master.zip'
         return GithubDownloader.download_github_archive_and_unzip(url, file_path, file_path.parent)
+
+    @staticmethod
+    def rename_project(folder_path: Path, project_name: str) -> Path:
+        """
+        Rename project
+        :param folder_path:
+        :param project_name:
+        return project folder path
+        """
+        return folder_path.rename(folder_path.parent / project_name)

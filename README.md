@@ -9,6 +9,7 @@ git install git+https://github.com/noricha-vr/source_convertor.git
 ```
 
 ## Usage
+
 Please see `--url` or `folder_path`.
 If you want select the output movie path, please set `output` option.
 
@@ -25,7 +26,8 @@ movie_path = source_converter.to_movie(image_paths=image_paths)
 ## Example
 
 ```bash
-python3 github_movie_maker.py noricha-vr/screen_capture path/to/output.mp4
+python3 github_movie_maker.py noricha-vr/source_converter
+Public path/to/output.mp4
 python3 github_movie_maker.py https://github.com/noricha-vr/source_converter movie.mp4
 ```
 
