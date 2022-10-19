@@ -1,8 +1,5 @@
-import os
 from pathlib import Path
 from typing import List
-
-from file_handler import FileHandler
 from pygments import highlight
 from pygments.lexers import PythonLexer
 from pygments.formatters import HtmlFormatter
@@ -27,25 +24,6 @@ class SourceConverter:
             'colorful': 'https://storage.googleapis.com/vrchat/css/colorful.css',
         }
         self.css_url = css_dict[css_style]
-
-    @staticmethod
-    def source_code_to_html(folder_path: Path, targets: List[str]) -> List[Path]:
-        """
-        Get source code files filtered by target types.
-        Convert the source codes to html. Return the html file paths.
-        :param folder_path: source code folder path.
-        :param targets: select source code file type or name.
-        :return: html file path
-        """
-        target_paths = []
-        html_file_paths = []
-        for target in targets:
-            target_paths.extend(folder_path.glob(f"**/{target}"))
-        for target_path in target_paths:
-            html_file_path = SourceConverter.target_to_html_path(target_path)
-            os.system(f"pygmentize -O full -f html -o {html_file_path} {target_path}/*")
-            html_file_paths.append(html_file_path)
-        return html_file_paths
 
     def add_css(self, html: str) -> str:
         """
