@@ -3,6 +3,9 @@ from pathlib import Path
 from typing import List
 
 from file_handler import FileHandler
+from pygments import highlight
+from pygments.lexers import PythonLexer
+from pygments.formatters import HtmlFormatter
 
 
 class SourceConverter:
@@ -13,7 +16,17 @@ class SourceConverter:
     convert source code to html.
     convert html to images.
     convert images to movie.
+    :param css_style: You can select css_style from `default`, `emacs`, `friendly`, `colorful`.
     """
+
+    def __init__(self, css_style='default'):
+        css_dict = {
+            'default': 'https://storage.googleapis.com/vrchat/css/default.css',
+            'emacs': 'https://storage.googleapis.com/vrchat/css/emacs.css',
+            'friendly': 'https://storage.googleapis.com/vrchat/css/friendly.css',
+            'colorful': 'https://storage.googleapis.com/vrchat/css/colorful.css',
+        }
+        self.css_url = css_dict[css_style]
 
     @staticmethod
     def get_zip_file_path(folder_path) -> Path:
@@ -23,15 +36,6 @@ class SourceConverter:
         """
         zip_file_path = Path(folder_path).parent / "master.zip"
         return zip_file_path
-
-    @staticmethod
-    def get_unzip_folder_path(zip_path) -> Path:
-        """
-        Get unzip folder path
-        :param zip_path:
-        :return: unzip folder path
-        """
-        return zip_path.parent.glob(f"{zip_path.stem}-*").__next__()
 
     @staticmethod
     def download_github_repository(url) -> Path:
@@ -78,7 +82,7 @@ class SourceConverter:
         return html_file_paths
 
     @staticmethod
-    def target_to_html_path(target:Path)->Path:
+    def target_to_html_path(target: Path) -> Path:
         """
         Get source file path of html file path.
         /source_converter/source_converter.py -> /source_converter_html/source_converter.html
@@ -86,3 +90,53 @@ class SourceConverter:
         :return: html file path
         """
         return Path(str(target).replace(target.suffix, ".html"))
+
+    def add_css(self, html: str) -> str:
+        """
+        Add css to html source code.
+        :param html source code.
+        :param css_path: css file path.
+        :return: html source code with css.
+        """
+        return "\n".join([f'<link href="{self.css_url}" rel="stylesheet">', html])
+
+    @staticmethod
+    def add_h1(html: str, file_path: Path) -> str:
+        """
+        Add h1 tag to html.
+        :param html:
+        :param file_path:
+        :return:
+        """
+        h1 = str(file_path).split('/')[1:]
+        h1 = "/".join(h1).replace('_copy', '')
+        return f'<h1>{h1}</h1>\n{html}'
+
+    def file_to_html(self, file_path: Path) -> Path:
+        """
+        Convert file to html.
+        :param file_path:
+        :return html_file_path:
+        """
+        html_file_path = Path(str(file_path).replace(file_path.suffix, ".html"))
+        with open(file_path, 'r') as f:
+            code = f.read()
+        html = highlight(code, PythonLexer(), HtmlFormatter())
+        html = self.add_h1(html, file_path)
+        html = self.add_css(html)
+        print(html)
+        with open(html_file_path, 'w') as f:
+            f.write(html)
+        return html_file_path
+
+    @staticmethod
+    def copy_project(project_path: Path) -> Path:
+        """
+        Copy project folder.
+        :param project_path:
+        :param copied_folder_path:
+        :return: copied folder path
+        """
+        copied_folder_path = Path(f"project/{project_path.name}_copy")
+        os.system(f"cp -r {project_path} {copied_folder_path}")
+        return copied_folder_path
