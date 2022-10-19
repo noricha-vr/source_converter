@@ -4,3 +4,4 @@
 /tests/html/*
 /dist/*
 /build/*
+/source_converter.egg-info/*
