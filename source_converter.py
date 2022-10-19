@@ -48,7 +48,7 @@ class SourceConverter:
 
     def file_to_html(self, file_path: Path) -> Path:
         """
-        Convert file to html.
+        Convert file to html. Output file path is `html/{file_path}`.
         :param file_path:
         :return html_file_path:
         """
