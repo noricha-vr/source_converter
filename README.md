@@ -14,13 +14,17 @@ Please see `--url` or `folder_path`.
 If you want select the output movie path, please set `output` option.
 
 ```python
+from github_downloader import GithubDownloader
 from source_converter import SourceConverter
 
-source_converter = SourceConverter()
-folder_path = source_converter.download_github_source(url="")
-html_root_path = source_converter.to_html(folder_path=folder_path)
-image_paths = source_converter.to_images(html_root_path=html_root_path)
-movie_path = source_converter.to_movie(image_paths=image_paths)
+url = "https://github.com/noricha-vr/source_converter"
+targets = ['README.md', '*.py', ]
+project_name = url.split("/")[-1]
+folder_path = GithubDownloader.download_github_archive_and_unzip_to_file(url, project_name)
+project_path = GithubDownloader.rename_project(folder_path, project_name)
+source_converter = SourceConverter('default')
+target_files = SourceConverter.select_target_files(project_path, targets)
+html_file_path = source_converter.file_to_html(project_path)
 ```
 
 ## Example
