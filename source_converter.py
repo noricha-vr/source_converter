@@ -134,7 +134,6 @@ class SourceConverter:
         """
         Copy project folder.
         :param project_path:
-        :param copied_folder_path:
         :return: copied folder path
         """
         copied_folder_path = Path(f"project/{project_path.name}_copy")
