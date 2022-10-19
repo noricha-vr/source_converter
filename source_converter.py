@@ -29,40 +29,6 @@ class SourceConverter:
         self.css_url = css_dict[css_style]
 
     @staticmethod
-    def get_zip_file_path(folder_path) -> Path:
-        """
-        Get zip file path.
-        :return: Path of zip file.
-        """
-        zip_file_path = Path(folder_path).parent / "master.zip"
-        return zip_file_path
-
-    @staticmethod
-    def download_github_repository(url) -> Path:
-        """
-        Download git archive and unzip it. return the folder path.
-        Download git archive
-        :return: folder path
-        """
-        download_url = f'{url}/archive/master.zip'
-        project_name = url.split('/')[-1]
-        zip_file_path = Path(f"project/{project_name}.zip")
-        os.makedirs(zip_file_path.parent, exist_ok=True)
-        if zip_file_path.exists(): zip_file_path.unlink()
-        FileHandler.download_file(download_url, zip_file_path)
-        return zip_file_path
-
-    @staticmethod
-    def extract_zip_file(zip_file_path: Path) -> Path:
-        """
-        Unzip file
-        :param zip_file_path:
-        :return: unzip folder path
-        """
-        FileHandler.unzip_file(zip_file_path, zip_file_path.parent)
-        return SourceConverter.get_unzip_folder_path(zip_file_path)
-
-    @staticmethod
     def source_code_to_html(folder_path: Path, targets: List[str]) -> List[Path]:
         """
         Get source code files filtered by target types.
@@ -80,16 +46,6 @@ class SourceConverter:
             os.system(f"pygmentize -O full -f html -o {html_file_path} {target_path}/*")
             html_file_paths.append(html_file_path)
         return html_file_paths
-
-    @staticmethod
-    def target_to_html_path(target: Path) -> Path:
-        """
-        Get source file path of html file path.
-        /source_converter/source_converter.py -> /source_converter_html/source_converter.html
-        :param target:
-        :return: html file path
-        """
-        return Path(str(target).replace(target.suffix, ".html"))
 
     def add_css(self, html: str) -> str:
         """
@@ -118,7 +74,9 @@ class SourceConverter:
         :param file_path:
         :return html_file_path:
         """
-        html_file_path = Path(str(file_path).replace(file_path.suffix, ".html"))
+        html_file_path = Path(str(file_path).replace('project', 'html').replace(file_path.suffix, ".html"))
+        print(f"html_file_path parent: {html_file_path.parent}")
+        html_file_path.parent.mkdir(parents=True, exist_ok=True)
         with open(file_path, 'r') as f:
             code = f.read()
         html = highlight(code, PythonLexer(), HtmlFormatter())
@@ -130,12 +88,14 @@ class SourceConverter:
         return html_file_path
 
     @staticmethod
-    def copy_project(project_path: Path) -> Path:
+    def select_target_files(project_folder_path: Path, targets: List[str]) -> List[Path]:
         """
-        Copy project folder.
-        :param project_path:
-        :return: copied folder path
+        Select target files from project folder. filter by target types.
+        :param project_folder_path:
+        :param targets:
+        :return: target file paths
         """
-        copied_folder_path = Path(f"project/{project_path.name}_copy")
-        os.system(f"cp -r {project_path} {copied_folder_path}")
-        return copied_folder_path
+        target_paths = []
+        for target in targets:
+            target_paths.extend(project_folder_path.glob(f"**/{target}"))
+        return target_paths
