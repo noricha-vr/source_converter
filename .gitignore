@@ -1,5 +1,5 @@
-/html/*
-/project/*
+/source_converter/html/*
+/source_converter/project/*
 /tests/project/*
 /tests/html/*
 /dist/*

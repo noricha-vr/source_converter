@@ -1,7 +1,5 @@
-from pathlib import Path
-
 import pytest
-
+from pathlib import Path
 from source_converter import SourceConverter
 
 
@@ -19,8 +17,8 @@ class TestSourceConverter:
         assert html_file_path == html_path
 
     @pytest.mark.parametrize(('targets', 'count'), [
-        (['*.py'], 5),
-        (['*.py', 'README.md'], 6),
+        (['*.py'], 6),
+        (['*.py', 'README.md'], 7),
     ])
     def test_select_target_files(self, targets, count):
         project_folder_path = Path("project/source_converter")
@@ -28,7 +26,7 @@ class TestSourceConverter:
         assert len(target_files) == count
 
     @pytest.mark.parametrize(('project_folder', 'targets', 'count'), [
-        (Path("project/source_converter"), ['README.md', '*.py'], 6),
+        (Path("project/source_converter"), ['README.md', '*.py'], 7),
     ])
     def test_project_to_html(self, project_folder, targets, count):
         source_converter = SourceConverter('default')

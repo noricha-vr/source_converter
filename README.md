@@ -5,15 +5,19 @@ This is a project to convert the source code on GitHub into a video.
 ## Installation
 
 ```bash
+pip install source_converter
+```
 
-pip install source_convertor
+or
+
+```bash
+pip install git+https://github.com/noricha-vr/source_converter
 ```
 
 ## Usage
 
 ```python
-from github_downloader import GithubDownloader
-from source_converter import SourceConverter
+from source_converter import SourceConverter, GithubDownloader
 
 # Select the repository and file types.
 url = "https://github.com/noricha-vr/source_converter"

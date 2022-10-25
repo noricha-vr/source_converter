@@ -1,4 +1,4 @@
-from github_downloader import GithubDownloader
+from source_converter import GithubDownloader
 
 
 def test_download_github_archive_and_unzip_to_file():

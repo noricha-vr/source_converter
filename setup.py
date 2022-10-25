@@ -6,10 +6,13 @@ def _requires_from_file(filename):
 
 
 packages = find_packages(exclude=['tests', 'tests.*'])
-packages.extend(['.'])
+
 setup(
     name='source_converter',
-    version='0.1.8',
+    version='0.1.9',
+    license='MIT',
+    author="Noricha",
+    author_email="noricha.vr@gmail.com",
     packages=packages,
     install_requires=_requires_from_file('requirements.txt'),
     setup_requires=["pytest-runner"],
