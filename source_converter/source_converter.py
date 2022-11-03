@@ -1,8 +1,22 @@
+import subprocess
 from pathlib import Path
 from typing import List
 from pygments import highlight
 from pygments.lexers import PythonLexer
 from pygments.formatters import HtmlFormatter
+
+
+class CustomHtmlFormatter(HtmlFormatter):
+    def __init__(self, lang_str='', **options):
+        super().__init__(**options)
+        # lang_str has the value {lang_prefix}{lang}
+        # specified by the CodeHilite's options
+        self.lang_str = lang_str
+
+    def _wrap_code(self, source):
+        yield 0, f'<code class="{self.lang_str}">'
+        yield from source
+        yield 0, '</code>'
 
 
 class SourceConverter:
@@ -29,7 +43,6 @@ class SourceConverter:
         """
         Add css to html source code.
         :param html source code.
-        :param css_path: css file path.
         :return: html source code with css.
         """
         return "\n".join([f'<link href="{self.css_url}" rel="stylesheet">', html])
@@ -55,14 +68,21 @@ class SourceConverter:
         html_file_path = Path(str(file_path).replace('project', 'html').replace(file_path.suffix, ".html"))
         print(f"html_file_path parent: {html_file_path.parent}")
         html_file_path.parent.mkdir(parents=True, exist_ok=True)
-        with open(file_path, 'r') as f:
-            code = f.read()
-        html = highlight(code, PythonLexer(), HtmlFormatter())
-        html = self.add_h1(html, file_path)
-        html = self.add_css(html)
-        print(html)
-        with open(html_file_path, 'w') as f:
-            f.write(html)
+        if file_path.suffix == '.md':
+            # Markdown to html with grip
+            subprocess.check_output(['grip', '--export', str(file_path)])
+            file_path = Path(str(file_path).replace('.md', '.html'))
+            # Replace file dir from project to html
+            html_file_path = Path(str(file_path).replace('project', 'html'))
+        else:
+            # Source code to html
+            with open(file_path, 'r') as f:
+                code = f.read()
+            html = highlight(code, PythonLexer(), HtmlFormatter())
+            html = self.add_h1(html, file_path)
+            html = self.add_css(html)
+            with open(html_file_path, 'w') as f:
+                f.write(html)
         return html_file_path
 
     @staticmethod
