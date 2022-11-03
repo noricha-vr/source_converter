@@ -1,4 +1,10 @@
+h1 {
+    font-family: sans-serif;
+}
+
 pre {
+    font-family: sans-serif;
+    font-size: 14px;
     line-height: 125%;
     padding-left: 5px;
     padding-top: 5px;
