@@ -1,3 +1,4 @@
+import shutil
 import subprocess
 from pathlib import Path
 from typing import List
@@ -72,8 +73,9 @@ class SourceConverter:
             # Markdown to html with grip
             subprocess.check_output(['grip', '--export', str(file_path)])
             file_path = Path(str(file_path).replace('.md', '.html'))
-            # Replace file dir from project to html
+            # Movie file from project to html directory.
             html_file_path = Path(str(file_path).replace('project', 'html'))
+            shutil.move(str(file_path), str(html_file_path))
         else:
             # Source code to html
             with open(file_path, 'r') as f:

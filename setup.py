@@ -9,7 +9,7 @@ packages = find_packages(exclude=['tests', 'tests.*'])
 
 setup(
     name='source_converter',
-    version='0.1.12',
+    version='0.1.14',
     license='MIT',
     author="Noricha",
     author_email="noricha.vr@gmail.com",
@@ -17,6 +17,7 @@ setup(
     install_requires=[
         'Pygments==2.13.0',
         'requests==2.28.1',
+        'grip==4.6.1',
     ],
     setup_requires=["pytest-runner"],
     tests_require=["pytest", "pytest-cov"]
