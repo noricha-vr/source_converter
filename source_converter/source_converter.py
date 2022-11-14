@@ -110,6 +110,7 @@ class SourceConverter:
         target_files = self.select_target_files(project_folder_path, targets)
         html_files = []
         for target_file in target_files:
+            if target_file.is_dir(): continue
             html_file = self.file_to_html(target_file)
             html_files.append(html_file)
         return html_files
