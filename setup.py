@@ -9,7 +9,7 @@ packages = find_packages(exclude=['tests', 'tests.*'])
 
 setup(
     name='source_converter',
-    version='0.1.15',
+    version='0.1.16',
     license='MIT',
     author="Noricha",
     author_email="noricha.vr@gmail.com",
