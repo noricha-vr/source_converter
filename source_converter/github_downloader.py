@@ -60,6 +60,20 @@ class GithubDownloader:
         GithubDownloader.download_github_archive_and_unzip(url, folder_path / 'archive.zip', folder_path)
 
     @staticmethod
+    def to_project_name(url: str) -> str:
+        """
+        Convert GitHub URL to project name
+        :param url:
+        :return: project name
+        """
+        words = url.split("/")
+        if len(words) < 5:
+            raise Exception(f"Invalid GitHub URL: {url}")
+        if words[2] != 'github.com':
+            raise Exception(f"Invalid GitHub URL: {url}")
+        return words[4]
+
+    @staticmethod
     def download_github_archive_and_unzip_to_file(url: str, project_name: str) -> Path:
         """
         Download git archive and unzip to file
