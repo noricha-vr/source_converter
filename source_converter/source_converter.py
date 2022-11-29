@@ -108,7 +108,15 @@ class SourceConverter:
         :return: bool
         """
         with open(file_path, 'rb') as f:
-            return b'\0' in f.read()
+            chunk = f.read(1024)
+            if b'\0' in chunk:
+                return True
+        with open(file_path, 'r') as f:
+            try:
+                f.read()
+                return False
+            except UnicodeDecodeError:
+                return True
 
     def project_to_html(self, project_folder_path: Path, targets: List[str]) -> List[Path]:
         """
