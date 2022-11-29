@@ -7,7 +7,7 @@ class TestSourceConverter:
 
     @pytest.mark.parametrize(('file_path', 'html_path'), [
         (Path("project/source_converter/source_converter/source_converter.py"),
-         Path("html/source_converter/source_converter/source_converter.html")),
+         Path("html/source_converter/source_converter/source_converter.py.html")),
         (Path("project/source_converter/README.md"),
          Path("html/source_converter/README.html")),
     ])
@@ -17,6 +17,14 @@ class TestSourceConverter:
         html_file_path = source_converter.file_to_html(file_path)
         assert html_file_path.exists() is True
         assert html_file_path == html_path
+
+    @pytest.mark.parametrize(('file_path', 'is_binary'), [
+        (Path("project/source_converter/source_converter/source_converter.py"), False),
+        (Path("project/source_converter/README.md"), False),
+        (Path("project/source_converter.zip"), True),
+    ])
+    def test_is_binary_file(self, file_path, is_binary):
+        assert SourceConverter._is_binary_file(file_path) == is_binary
 
     @pytest.mark.parametrize(('targets', 'count'), [
         (['*.py'], 6),

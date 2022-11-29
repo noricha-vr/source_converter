@@ -66,7 +66,7 @@ class SourceConverter:
         :param file_path:
         :return html_file_path:
         """
-        html_file_path = Path(str(file_path).replace('project', 'html').replace(file_path.suffix, ".html"))
+        html_file_path = Path(str(file_path).replace('project', 'html') + '.html')
         print(f"html_file_path parent: {html_file_path.parent}")
         html_file_path.parent.mkdir(parents=True, exist_ok=True)
         if file_path.suffix == '.md':
@@ -100,9 +100,19 @@ class SourceConverter:
             target_paths.extend(project_folder_path.glob(f"**/{target}"))
         return target_paths
 
+    @staticmethod
+    def _is_binary_file(file_path: Path) -> bool:
+        """
+        Check file is binary or not.
+        :param file_path:
+        :return: bool
+        """
+        with open(file_path, 'rb') as f:
+            return b'\0' in f.read()
+
     def project_to_html(self, project_folder_path: Path, targets: List[str]) -> List[Path]:
         """
-        Convert project to html.
+        Convert project to html. Please specify target files. If target file is binary file, skip it.
         :param project_folder_path:
         :param targets:
         :return: html file paths
@@ -111,6 +121,7 @@ class SourceConverter:
         html_files = []
         for target_file in target_files:
             if target_file.is_dir(): continue
+            if self._is_binary_file(target_file): continue
             html_file = self.file_to_html(target_file)
             html_files.append(html_file)
         return html_files
